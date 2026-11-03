@@ -1,0 +1,138 @@
+{
+  "majority_baseline": {
+    "validation": {
+      "split": "Validation",
+      "sample_count": 2555,
+      "accuracy": 44.58,
+      "macro_f1": 30.83,
+      "mcc": 0.0,
+      "confusion_matrix": [
+        [
+          0,
+          1416
+        ],
+        [
+          0,
+          1139
+        ]
+      ],
+      "down_class": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1416
+      },
+      "up_class": {
+        "precision": 44.58,
+        "recall": 100.0,
+        "f1": 61.67,
+        "support": 1139
+      },
+      "prediction_distribution": {
+        "pred_down_pct": 0.0,
+        "pred_up_pct": 100.0
+      }
+    },
+    "test": {
+      "split": "Test",
+      "sample_count": 3720,
+      "accuracy": 51.29,
+      "macro_f1": 33.9,
+      "mcc": 0.0,
+      "confusion_matrix": [
+        [
+          0,
+          1812
+        ],
+        [
+          0,
+          1908
+        ]
+      ],
+      "down_class": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1812
+      },
+      "up_class": {
+        "precision": 51.29,
+        "recall": 100.0,
+        "f1": 67.8,
+        "support": 1908
+      },
+      "prediction_distribution": {
+        "pred_down_pct": 0.0,
+        "pred_up_pct": 100.0
+      }
+    }
+  },
+  "random_forest_baseline": {
+    "validation": {
+      "split": "Validation",
+      "sample_count": 2555,
+      "accuracy": 53.39,
+      "macro_f1": 53.1,
+      "mcc": 0.1006,
+      "confusion_matrix": [
+        [
+          582,
+          834
+        ],
+        [
+          357,
+          782
+        ]
+      ],
+      "down_class": {
+        "precision": 61.98,
+        "recall": 41.1,
+        "f1": 49.43,
+        "support": 1416
+      },
+      "up_class": {
+        "precision": 48.39,
+        "recall": 68.66,
+        "f1": 56.77,
+        "support": 1139
+      },
+      "prediction_distribution": {
+        "pred_down_pct": 36.75,
+        "pred_up_pct": 63.25
+      }
+    },
+    "test": {
+      "split": "Test",
+      "sample_count": 3720,
+      "accuracy": 52.53,
+      "macro_f1": 52.09,
+      "mcc": 0.0469,
+      "confusion_matrix": [
+        [
+          799,
+          1013
+        ],
+        [
+          753,
+          1155
+        ]
+      ],
+      "down_class": {
+        "precision": 51.48,
+        "recall": 44.09,
+        "f1": 47.5,
+        "support": 1812
+      },
+      "up_class": {
+        "precision": 53.27,
+        "recall": 60.53,
+        "f1": 56.67,
+        "support": 1908
+      },
+      "prediction_distribution": {
+        "pred_down_pct": 41.72,
+        "pred_up_pct": 58.28
+      }
+    }
+  }
+}

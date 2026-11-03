@@ -1,0 +1,26 @@
+# Ploutos+ Phase 1 Minimal Dependencies
+# Data manipulation & Scientific Computing
+numpy>=1.23.5,<2.0.0
+pandas>=2.0.0,<3.0.0
+scipy>=1.10.0
+scikit-learn>=1.2.0
+
+# Configuration & Utilities
+pyyaml>=6.0
+tqdm>=4.65.0
+python-dotenv>=1.0.0
+
+# Testing & Quality Assurance
+pytest>=7.3.0
+
+# Visualization & Reporting
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Real-Time Live Market Ingestion & Interactive Dashboard
+yfinance>=0.2.30
+requests>=2.28.0
+streamlit>=1.30.0
+plotly>=5.18.0
+fastapi>=0.110.0
+uvicorn>=0.28.0

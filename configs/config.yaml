@@ -1,0 +1,23 @@
+# Ploutos+ Global Configuration
+project_name: "Ploutos+"
+version: "0.1.0"
+author: "K. Rishikesh (24BDS030)"
+institution: "IIIT Dharwad"
+random_seed: 42
+
+paths:
+  raw_data_dir: "data/raw"
+  interim_data_dir: "data/interim"
+  processed_data_dir: "data/processed"
+  samples_dir: "data/samples"
+  checkpoints_dir: "checkpoints"
+  results_dir: "results"
+  metrics_dir: "results/metrics"
+  predictions_dir: "results/predictions"
+  figures_dir: "results/figures"
+
+hardware:
+  device: "cuda"  # fallback to 'cpu' if unavailable
+  gpu_id: 0
+  mixed_precision: "fp16"
+  max_vram_gb: 6.0

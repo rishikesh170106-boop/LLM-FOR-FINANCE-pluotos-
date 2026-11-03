@@ -1,0 +1,27 @@
+# StockNet Data Configuration
+dataset:
+  name: "StockNet"
+  expected_stocks_count: 87
+  source_period: "2014-2015"
+
+labeling:
+  # Movement thresholds: decimal returns
+  # DOWN = 0 if return <= -0.005
+  # UP = 1 if return > 0.0055
+  # Samples between (-0.005, 0.0055] are excluded
+  down_threshold: -0.005
+  up_threshold: 0.0055
+
+splits:
+  # Strict chronological temporal splits (Zero-leakage)
+  train_start: "2014-01-02"
+  train_end: "2015-07-31"
+  val_start: "2015-08-03"
+  val_end: "2015-09-30"
+  test_start: "2015-10-01"
+  test_end: "2015-12-31"
+
+text_processing:
+  daily_tweet_cap: 10
+  preserve_empty_days: true
+  min_tweet_chars: 10

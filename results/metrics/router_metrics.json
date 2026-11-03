@@ -1,0 +1,61 @@
+{
+  "phase": 8,
+  "model": "ContextGatedRouter",
+  "epochs_trained": 25,
+  "runtime_seconds": 87.15,
+  "best_epoch": 8,
+  "val_metrics": {
+    "accuracy": 50.76,
+    "mcc": 0.0635
+  },
+  "test_metrics": {
+    "split": "Test",
+    "sample_count": 3720,
+    "accuracy": 52.98,
+    "macro_f1": 51.89,
+    "mcc": 0.0547,
+    "confusion_matrix": [
+      [
+        705,
+        1107
+      ],
+      [
+        642,
+        1266
+      ]
+    ],
+    "down_class": {
+      "precision": 52.34,
+      "recall": 38.91,
+      "f1": 44.63,
+      "support": 1812
+    },
+    "up_class": {
+      "precision": 53.35,
+      "recall": 66.35,
+      "f1": 59.15,
+      "support": 1908
+    },
+    "prediction_distribution": {
+      "pred_down_pct": 36.21,
+      "pred_up_pct": 63.79
+    }
+  },
+  "weight_allocation": {
+    "overall": {
+      "technical": 0.3008,
+      "sentiment": 0.3266,
+      "human": 0.3726
+    },
+    "when_tweets_present": {
+      "technical": 0.2869,
+      "sentiment": 0.3227,
+      "human": 0.3903
+    },
+    "when_no_tweets": {
+      "technical": 0.3121,
+      "sentiment": 0.3297,
+      "human": 0.3582
+    }
+  }
+}

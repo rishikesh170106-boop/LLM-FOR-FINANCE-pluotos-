@@ -1,0 +1,10 @@
+{
+  "total_predictions": 86,
+  "total_settled": 12,
+  "total_pending": 74,
+  "settled_correct": 7,
+  "forward_accuracy": 0.5833,
+  "avg_realized_return": 0.0711,
+  "avg_predicted_confidence": 0.665,
+  "updated_at": "2026-11-04T01:38:55.616900"
+}

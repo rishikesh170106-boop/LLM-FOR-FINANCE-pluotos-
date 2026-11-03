@@ -1,0 +1,24 @@
+# Experiment tracking and evaluation protocol
+experiments:
+  exp_001_majority_baseline:
+    enabled: true
+    description: "Majority class classifier on chronological splits"
+  exp_002_numerical_rf_baseline:
+    enabled: true
+    description: "Random Forest with lagged features (Strict zero-leakage)"
+  exp_003_ploutos_fixed_experts:
+    enabled: true
+    description: "Static combination of Technical, Sentiment, and Human proxies"
+  exp_004_adaptive_expert_router:
+    enabled: true
+    description: "Context-gated dynamic weighting network (Core contribution)"
+  exp_005_ploutos_live_realtime:
+    enabled: true
+    description: "Live real-time market ingestion & forward validation tracking (yfinance + StockTwits)"
+
+evaluation_metrics:
+  - "accuracy"
+  - "macro_f1"
+  - "mcc"
+  - "confusion_matrix"
+  - "per_class_precision_recall"

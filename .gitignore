@@ -1,0 +1,42 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Dataset & Raw Binaries (do not commit large data)
+data/raw/*
+!data/raw/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+!data/processed/ploutos_test_prompts.jsonl
+
+# Model weights & Checkpoints
+checkpoints/
+*.pt
+*.bin
+*.safetensors
+*.onnx
+
+# Secrets & Configuration overrides
+.env
+*.pem
+*.key
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs and runtime artifacts
+logs/
+*.log
+results/predictions/*
+!results/predictions/.gitkeep

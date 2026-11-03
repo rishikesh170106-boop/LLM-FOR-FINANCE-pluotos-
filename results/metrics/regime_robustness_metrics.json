@@ -1,0 +1,716 @@
+{
+  "phase": 10,
+  "sample_universe": 3720,
+  "regime_distribution": {
+    "Sideways": 1205,
+    "Bull": 956,
+    "High-Volatility": 930,
+    "Bear": 629
+  },
+  "models": {
+    "majority_baseline": {
+      "model_name": "Majority Baseline",
+      "overall": {
+        "split": "Overall",
+        "sample_count": 3720,
+        "accuracy": 51.29,
+        "macro_f1": 33.9,
+        "mcc": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            1812
+          ],
+          [
+            0,
+            1908
+          ]
+        ],
+        "down_class": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1812
+        },
+        "up_class": {
+          "precision": 51.29,
+          "recall": 100.0,
+          "f1": 67.8,
+          "support": 1908
+        },
+        "prediction_distribution": {
+          "pred_down_pct": 0.0,
+          "pred_up_pct": 100.0
+        }
+      },
+      "by_regime": {
+        "Bull": {
+          "split": "Bull",
+          "sample_count": 956,
+          "accuracy": 46.97,
+          "macro_f1": 31.96,
+          "mcc": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              507
+            ],
+            [
+              0,
+              449
+            ]
+          ],
+          "down_class": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 507
+          },
+          "up_class": {
+            "precision": 46.97,
+            "recall": 100.0,
+            "f1": 63.91,
+            "support": 449
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 0.0,
+            "pred_up_pct": 100.0
+          }
+        },
+        "Bear": {
+          "split": "Bear",
+          "sample_count": 629,
+          "accuracy": 56.44,
+          "macro_f1": 36.08,
+          "mcc": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              274
+            ],
+            [
+              0,
+              355
+            ]
+          ],
+          "down_class": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 274
+          },
+          "up_class": {
+            "precision": 56.44,
+            "recall": 100.0,
+            "f1": 72.15,
+            "support": 355
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 0.0,
+            "pred_up_pct": 100.0
+          }
+        },
+        "Sideways": {
+          "split": "Sideways",
+          "sample_count": 1205,
+          "accuracy": 48.71,
+          "macro_f1": 32.76,
+          "mcc": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              618
+            ],
+            [
+              0,
+              587
+            ]
+          ],
+          "down_class": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 618
+          },
+          "up_class": {
+            "precision": 48.71,
+            "recall": 100.0,
+            "f1": 65.51,
+            "support": 587
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 0.0,
+            "pred_up_pct": 100.0
+          }
+        },
+        "High-Volatility": {
+          "split": "High-Volatility",
+          "sample_count": 930,
+          "accuracy": 55.59,
+          "macro_f1": 35.73,
+          "mcc": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              413
+            ],
+            [
+              0,
+              517
+            ]
+          ],
+          "down_class": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 413
+          },
+          "up_class": {
+            "precision": 55.59,
+            "recall": 100.0,
+            "f1": 71.46,
+            "support": 517
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 0.0,
+            "pred_up_pct": 100.0
+          }
+        }
+      },
+      "resilience": {
+        "min_mcc": 0.0,
+        "max_mcc": 0.0,
+        "mcc_spread": 0.0,
+        "is_universally_positive": false
+      }
+    },
+    "random_forest": {
+      "model_name": "Random Forest",
+      "overall": {
+        "split": "Overall",
+        "sample_count": 3720,
+        "accuracy": 52.2,
+        "macro_f1": 51.73,
+        "mcc": 0.0402,
+        "confusion_matrix": [
+          [
+            786,
+            1026
+          ],
+          [
+            752,
+            1156
+          ]
+        ],
+        "down_class": {
+          "precision": 51.11,
+          "recall": 43.38,
+          "f1": 46.93,
+          "support": 1812
+        },
+        "up_class": {
+          "precision": 52.98,
+          "recall": 60.59,
+          "f1": 56.53,
+          "support": 1908
+        },
+        "prediction_distribution": {
+          "pred_down_pct": 41.34,
+          "pred_up_pct": 58.66
+        }
+      },
+      "by_regime": {
+        "Bull": {
+          "split": "Bull",
+          "sample_count": 956,
+          "accuracy": 47.91,
+          "macro_f1": 47.78,
+          "mcc": -0.0444,
+          "confusion_matrix": [
+            [
+              253,
+              254
+            ],
+            [
+              244,
+              205
+            ]
+          ],
+          "down_class": {
+            "precision": 50.91,
+            "recall": 49.9,
+            "f1": 50.4,
+            "support": 507
+          },
+          "up_class": {
+            "precision": 44.66,
+            "recall": 45.66,
+            "f1": 45.15,
+            "support": 449
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 51.99,
+            "pred_up_pct": 48.01
+          }
+        },
+        "Bear": {
+          "split": "Bear",
+          "sample_count": 629,
+          "accuracy": 58.19,
+          "macro_f1": 52.94,
+          "mcc": 0.1129,
+          "confusion_matrix": [
+            [
+              78,
+              196
+            ],
+            [
+              67,
+              288
+            ]
+          ],
+          "down_class": {
+            "precision": 53.79,
+            "recall": 28.47,
+            "f1": 37.23,
+            "support": 274
+          },
+          "up_class": {
+            "precision": 59.5,
+            "recall": 81.13,
+            "f1": 68.65,
+            "support": 355
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 23.05,
+            "pred_up_pct": 76.95
+          }
+        },
+        "Sideways": {
+          "split": "Sideways",
+          "sample_count": 1205,
+          "accuracy": 54.69,
+          "macro_f1": 53.8,
+          "mcc": 0.1066,
+          "confusion_matrix": [
+            [
+              246,
+              372
+            ],
+            [
+              174,
+              413
+            ]
+          ],
+          "down_class": {
+            "precision": 58.57,
+            "recall": 39.81,
+            "f1": 47.4,
+            "support": 618
+          },
+          "up_class": {
+            "precision": 52.61,
+            "recall": 70.36,
+            "f1": 60.2,
+            "support": 587
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 34.85,
+            "pred_up_pct": 65.15
+          }
+        },
+        "High-Volatility": {
+          "split": "High-Volatility",
+          "sample_count": 930,
+          "accuracy": 49.35,
+          "macro_f1": 49.26,
+          "mcc": -0.0103,
+          "confusion_matrix": [
+            [
+              209,
+              204
+            ],
+            [
+              267,
+              250
+            ]
+          ],
+          "down_class": {
+            "precision": 43.91,
+            "recall": 50.61,
+            "f1": 47.02,
+            "support": 413
+          },
+          "up_class": {
+            "precision": 55.07,
+            "recall": 48.36,
+            "f1": 51.49,
+            "support": 517
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 51.18,
+            "pred_up_pct": 48.82
+          }
+        }
+      },
+      "resilience": {
+        "min_mcc": -0.0444,
+        "max_mcc": 0.1129,
+        "mcc_spread": 0.1573,
+        "is_universally_positive": false
+      }
+    },
+    "static_ploutos": {
+      "model_name": "Static Ploutos",
+      "overall": {
+        "split": "Overall",
+        "sample_count": 3720,
+        "accuracy": 46.05,
+        "macro_f1": 45.74,
+        "mcc": -0.0829,
+        "confusion_matrix": [
+          [
+            717,
+            1095
+          ],
+          [
+            912,
+            996
+          ]
+        ],
+        "down_class": {
+          "precision": 44.01,
+          "recall": 39.57,
+          "f1": 41.67,
+          "support": 1812
+        },
+        "up_class": {
+          "precision": 47.63,
+          "recall": 52.2,
+          "f1": 49.81,
+          "support": 1908
+        },
+        "prediction_distribution": {
+          "pred_down_pct": 43.79,
+          "pred_up_pct": 56.21
+        }
+      },
+      "by_regime": {
+        "Bull": {
+          "split": "Bull",
+          "sample_count": 956,
+          "accuracy": 46.97,
+          "macro_f1": 31.96,
+          "mcc": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              507
+            ],
+            [
+              0,
+              449
+            ]
+          ],
+          "down_class": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 507
+          },
+          "up_class": {
+            "precision": 46.97,
+            "recall": 100.0,
+            "f1": 63.91,
+            "support": 449
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 0.0,
+            "pred_up_pct": 100.0
+          }
+        },
+        "Bear": {
+          "split": "Bear",
+          "sample_count": 629,
+          "accuracy": 43.56,
+          "macro_f1": 30.34,
+          "mcc": 0.0,
+          "confusion_matrix": [
+            [
+              274,
+              0
+            ],
+            [
+              355,
+              0
+            ]
+          ],
+          "down_class": {
+            "precision": 43.56,
+            "recall": 100.0,
+            "f1": 60.69,
+            "support": 274
+          },
+          "up_class": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 355
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 100.0,
+            "pred_up_pct": 0.0
+          }
+        },
+        "Sideways": {
+          "split": "Sideways",
+          "sample_count": 1205,
+          "accuracy": 44.65,
+          "macro_f1": 44.64,
+          "mcc": -0.1068,
+          "confusion_matrix": [
+            [
+              273,
+              345
+            ],
+            [
+              322,
+              265
+            ]
+          ],
+          "down_class": {
+            "precision": 45.88,
+            "recall": 44.17,
+            "f1": 45.01,
+            "support": 618
+          },
+          "up_class": {
+            "precision": 43.44,
+            "recall": 45.14,
+            "f1": 44.28,
+            "support": 587
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 49.38,
+            "pred_up_pct": 50.62
+          }
+        },
+        "High-Volatility": {
+          "split": "High-Volatility",
+          "sample_count": 930,
+          "accuracy": 48.6,
+          "macro_f1": 47.85,
+          "mcc": -0.043,
+          "confusion_matrix": [
+            [
+              170,
+              243
+            ],
+            [
+              235,
+              282
+            ]
+          ],
+          "down_class": {
+            "precision": 41.98,
+            "recall": 41.16,
+            "f1": 41.56,
+            "support": 413
+          },
+          "up_class": {
+            "precision": 53.71,
+            "recall": 54.55,
+            "f1": 54.13,
+            "support": 517
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 43.55,
+            "pred_up_pct": 56.45
+          }
+        }
+      },
+      "resilience": {
+        "min_mcc": -0.1068,
+        "max_mcc": 0.0,
+        "mcc_spread": 0.1068,
+        "is_universally_positive": false
+      }
+    },
+    "ploutos_adaptive_router": {
+      "model_name": "Ploutos+ Adaptive Router",
+      "overall": {
+        "split": "Overall",
+        "sample_count": 3720,
+        "accuracy": 52.96,
+        "macro_f1": 51.86,
+        "mcc": 0.0541,
+        "confusion_matrix": [
+          [
+            704,
+            1108
+          ],
+          [
+            642,
+            1266
+          ]
+        ],
+        "down_class": {
+          "precision": 52.3,
+          "recall": 38.85,
+          "f1": 44.59,
+          "support": 1812
+        },
+        "up_class": {
+          "precision": 53.33,
+          "recall": 66.35,
+          "f1": 59.13,
+          "support": 1908
+        },
+        "prediction_distribution": {
+          "pred_down_pct": 36.18,
+          "pred_up_pct": 63.82
+        }
+      },
+      "by_regime": {
+        "Bull": {
+          "split": "Bull",
+          "sample_count": 956,
+          "accuracy": 51.99,
+          "macro_f1": 51.74,
+          "mcc": 0.0349,
+          "confusion_matrix": [
+            [
+              283,
+              224
+            ],
+            [
+              235,
+              214
+            ]
+          ],
+          "down_class": {
+            "precision": 54.63,
+            "recall": 55.82,
+            "f1": 55.22,
+            "support": 507
+          },
+          "up_class": {
+            "precision": 48.86,
+            "recall": 47.66,
+            "f1": 48.25,
+            "support": 449
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 54.18,
+            "pred_up_pct": 45.82
+          }
+        },
+        "Bear": {
+          "split": "Bear",
+          "sample_count": 629,
+          "accuracy": 58.82,
+          "macro_f1": 51.39,
+          "mcc": 0.123,
+          "confusion_matrix": [
+            [
+              62,
+              212
+            ],
+            [
+              47,
+              308
+            ]
+          ],
+          "down_class": {
+            "precision": 56.88,
+            "recall": 22.63,
+            "f1": 32.38,
+            "support": 274
+          },
+          "up_class": {
+            "precision": 59.23,
+            "recall": 86.76,
+            "f1": 70.4,
+            "support": 355
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 17.33,
+            "pred_up_pct": 82.67
+          }
+        },
+        "Sideways": {
+          "split": "Sideways",
+          "sample_count": 1205,
+          "accuracy": 50.71,
+          "macro_f1": 48.39,
+          "mcc": 0.0287,
+          "confusion_matrix": [
+            [
+              178,
+              440
+            ],
+            [
+              154,
+              433
+            ]
+          ],
+          "down_class": {
+            "precision": 53.61,
+            "recall": 28.8,
+            "f1": 37.47,
+            "support": 618
+          },
+          "up_class": {
+            "precision": 49.6,
+            "recall": 73.76,
+            "f1": 59.32,
+            "support": 587
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 27.55,
+            "pred_up_pct": 72.45
+          }
+        },
+        "High-Volatility": {
+          "split": "High-Volatility",
+          "sample_count": 930,
+          "accuracy": 52.9,
+          "macro_f1": 51.96,
+          "mcc": 0.0401,
+          "confusion_matrix": [
+            [
+              181,
+              232
+            ],
+            [
+              206,
+              311
+            ]
+          ],
+          "down_class": {
+            "precision": 46.77,
+            "recall": 43.83,
+            "f1": 45.25,
+            "support": 413
+          },
+          "up_class": {
+            "precision": 57.27,
+            "recall": 60.15,
+            "f1": 58.68,
+            "support": 517
+          },
+          "prediction_distribution": {
+            "pred_down_pct": 41.61,
+            "pred_up_pct": 58.39
+          }
+        }
+      },
+      "resilience": {
+        "min_mcc": 0.0287,
+        "max_mcc": 0.123,
+        "mcc_spread": 0.0943,
+        "is_universally_positive": true
+      }
+    }
+  }
+}

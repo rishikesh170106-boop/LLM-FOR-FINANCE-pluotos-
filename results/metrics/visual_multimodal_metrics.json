@@ -1,0 +1,138 @@
+{
+  "phase": 9,
+  "sample_size": 600,
+  "majority_baseline": {
+    "split": "Majority",
+    "sample_count": 600,
+    "accuracy": 49.83,
+    "macro_f1": 33.26,
+    "mcc": 0.0,
+    "confusion_matrix": [
+      [
+        0,
+        301
+      ],
+      [
+        0,
+        299
+      ]
+    ],
+    "down_class": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 301
+    },
+    "up_class": {
+      "precision": 49.83,
+      "recall": 100.0,
+      "f1": 66.52,
+      "support": 299
+    },
+    "prediction_distribution": {
+      "pred_down_pct": 0.0,
+      "pred_up_pct": 100.0
+    }
+  },
+  "visual_alone": {
+    "split": "Visual_Alone",
+    "sample_count": 600,
+    "accuracy": 48.67,
+    "macro_f1": 48.55,
+    "mcc": -0.0265,
+    "confusion_matrix": [
+      [
+        132,
+        169
+      ],
+      [
+        139,
+        160
+      ]
+    ],
+    "down_class": {
+      "precision": 48.71,
+      "recall": 43.85,
+      "f1": 46.15,
+      "support": 301
+    },
+    "up_class": {
+      "precision": 48.63,
+      "recall": 53.51,
+      "f1": 50.96,
+      "support": 299
+    },
+    "prediction_distribution": {
+      "pred_down_pct": 45.17,
+      "pred_up_pct": 54.83
+    }
+  },
+  "router_alone": {
+    "split": "Router_Alone",
+    "sample_count": 600,
+    "accuracy": 51.33,
+    "macro_f1": 50.5,
+    "mcc": 0.0286,
+    "confusion_matrix": [
+      [
+        115,
+        186
+      ],
+      [
+        106,
+        193
+      ]
+    ],
+    "down_class": {
+      "precision": 52.04,
+      "recall": 38.21,
+      "f1": 44.06,
+      "support": 301
+    },
+    "up_class": {
+      "precision": 50.92,
+      "recall": 64.55,
+      "f1": 56.93,
+      "support": 299
+    },
+    "prediction_distribution": {
+      "pred_down_pct": 36.83,
+      "pred_up_pct": 63.17
+    }
+  },
+  "multimodal_fusion": {
+    "split": "Multimodal_Router_Visual",
+    "sample_count": 600,
+    "accuracy": 51.67,
+    "macro_f1": 51.0,
+    "mcc": 0.0335,
+    "confusion_matrix": [
+      [
+        190,
+        111
+      ],
+      [
+        179,
+        120
+      ]
+    ],
+    "down_class": {
+      "precision": 51.49,
+      "recall": 63.12,
+      "f1": 56.72,
+      "support": 301
+    },
+    "up_class": {
+      "precision": 51.95,
+      "recall": 40.13,
+      "f1": 45.28,
+      "support": 299
+    },
+    "prediction_distribution": {
+      "pred_down_pct": 61.5,
+      "pred_up_pct": 38.5
+    }
+  },
+  "accuracy_boost": 0.34,
+  "mcc_boost": 0.0049
+}

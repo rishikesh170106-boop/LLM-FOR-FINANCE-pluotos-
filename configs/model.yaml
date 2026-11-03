@@ -1,0 +1,28 @@
+# Baseline and Model Architecture Configuration
+baselines:
+  majority_class:
+    description: "Predicts the most frequent class in training data"
+  random_forest:
+    n_estimators: 100
+    max_depth: 8
+    random_state: 42
+    n_jobs: -1
+
+llm_settings:
+  # Resource-conscious local candidate models (1B - 3B parameters)
+  candidate_models:
+    - "meta-llama/Llama-3.2-1B-Instruct"
+    - "Qwen/Qwen2.5-1.5B-Instruct"
+    - "meta-llama/Llama-3.2-3B-Instruct"
+  quantization: "4bit"  # bitsandbytes NF4 for 6GB RTX 4050
+  lora:
+    r: 8
+    lora_alpha: 16
+    lora_dropout: 0.05
+    target_modules: ["q_proj", "v_proj"]
+
+router:
+  architecture: "context_gated_mlp"
+  input_dim: 16  # contextual volatility & regime indicators
+  expert_count: 3  # Technical, Sentiment, Human Proxy
+  temperature: 1.0
