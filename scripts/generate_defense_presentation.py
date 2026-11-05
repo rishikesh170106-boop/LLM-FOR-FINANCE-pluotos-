@@ -2,16 +2,16 @@
 scripts/generate_defense_presentation.py
 Generates the official, publication-grade academic defense PowerPoint presentation
 for Ploutos+ strictly aligned with Part A Presentation Guidelines:
-  - Slide 1: Application and Problem Statement
-  - Slide 2: Dataset and Original Method (with Custom Block Diagram)
-  - Slide 3: Results from the Original Paper (with Metrics Explanation)
-  - Slide 4: Stage 1 – Implementation and Results (with Loss Convergence Figure)
-  - Slide 5: Stage 2 – Proposed Modifications (Ploutos+ Architecture & Block Diagram)
-  - Slide 6: Stage 2 – Final Results & Ablation Matrix (Stage 1 vs Stage 2 Comparison)
-  - Slide 6B: Stage 2 – Market-Regime Robustness & Institutional Terminal (Allowed Additional Results Slide)
-  - Slide 7: Conclusions and Key Learning (Answers to all 4 specific student questions)
+  - Slide 1: Application and Problem Statement (App, Problem, Importance, Real-World Example, Paper Title)
+  - Slide 2: Dataset and Original Method (Source, Size, Types, Splits, and Compulsory Block Diagram 1)
+  - Slide 3: Results from the Original Paper (Paper Results Table, Metrics in Simple Language, Main Findings)
+  - Slide 4: Stage 1 – Implementation and Results (Implementation Setup, GPU LoRA Loss, Paper Comparison, Differences)
+  - Slide 5: Stage 2 – Proposed Modifications (4 Innovations, Why Introduced, and Compulsory Block Diagram 2)
+  - Slide 6: Stage 2 – Final Results (Stage 1 vs. Stage 2 Ablation, Performance Gains, Super-Additivity)
+  - Slide 6B: Stage 2 – Market-Regime Robustness & Terminal (Allowed 1 Additional Results Slide)
+  - Slide 7: Conclusions and Key Learning (Answers to All 4 Specific Questions for Other Students)
 
-Widescreen 16:9 Format (13.333" x 7.5"), Institutional Dark Theme (#080C14).
+Widescreen 16:9 Format (13.333" x 7.5"), Institutional Obsidian Dark Theme (#080C14).
 Authors: Rishikesh (24BDS030), Vineel (24BDS010), Arjun (24BDS039) | IIIT Dharwad
 Course: LLM Applications in Finance
 """
@@ -24,9 +24,9 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from pptx import Presentation
-from pptx.util import Inches, Pt, Emu
+from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
 # ─── Color Palette (Dark Institutional Premium Theme) ───
@@ -47,10 +47,14 @@ TEXT_AMBER     = RGBColor(0xFB, 0xBF, 0x24)   # Amber gold #fbbf24
 TEXT_PURPLE    = RGBColor(0xC0, 0x84, 0xFC)   # Purple #c084fc
 
 OUTPUT_PATH = PROJECT_ROOT / "results" / "Ploutos_Plus_Presentation.pptx"
+FIG_ORIGINAL_DIAG = PROJECT_ROOT / "results" / "figures" / "diagram_original_method.png"
+FIG_MODIFIED_DIAG = PROJECT_ROOT / "results" / "figures" / "diagram_modified_method.png"
+FIG_LOSS          = PROJECT_ROOT / "results" / "figures" / "training_loss.png"
+FIG_ABLATION_MCC  = PROJECT_ROOT / "results" / "figures" / "ablation_mcc_comparison.png"
+FIG_REGIME_ACC    = PROJECT_ROOT / "results" / "figures" / "regime_accuracy_comparison.png"
 
 
 def set_slide_bg(slide, color=BG_DARK):
-    """Set solid dark background for the slide."""
     bg = slide.background
     fill = bg.fill
     fill.solid()
@@ -58,7 +62,6 @@ def set_slide_bg(slide, color=BG_DARK):
 
 
 def add_card(slide, left, top, width, height, fill_color=BG_CARD, border_color=BORDER_COLOR, border_width=Pt(1)):
-    """Add a dark card panel with subtle border."""
     shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
     shape.fill.solid()
     shape.fill.fore_color.rgb = fill_color
@@ -72,8 +75,6 @@ def add_card(slide, left, top, width, height, fill_color=BG_CARD, border_color=B
 
 
 def add_header(slide, slide_num, title, subtitle):
-    """Add standardized academic header with slide number and category."""
-    # Top Tag
     tb_tag = slide.shapes.add_textbox(Inches(0.8), Inches(0.4), Inches(11.7), Inches(0.3))
     tf_tag = tb_tag.text_frame
     tf_tag.word_wrap = True
@@ -85,7 +86,6 @@ def add_header(slide, slide_num, title, subtitle):
     p_tag.font.color.rgb = TEXT_EMERALD
     p_tag.font.name = "Arial"
 
-    # Main Title
     tb_title = slide.shapes.add_textbox(Inches(0.8), Inches(0.68), Inches(11.7), Inches(0.55))
     tf_title = tb_title.text_frame
     tf_title.word_wrap = True
@@ -97,7 +97,6 @@ def add_header(slide, slide_num, title, subtitle):
     p_title.font.color.rgb = TEXT_WHITE
     p_title.font.name = "Arial"
 
-    # Subtitle
     p_sub = tf_title.add_paragraph()
     p_sub.text = subtitle
     p_sub.font.size = Pt(11)
@@ -119,13 +118,12 @@ def build_slide_1(prs):
         subtitle="Interpretable Stock Movement Prediction with Financial LLMs (Tong et al., ACL / arXiv 2024)"
     )
 
-    # 3 Cards Layout: Left (App & Problem), Middle (Real-World Example), Right (Paper & Core Dilemma)
     col_w = Inches(3.75)
     gap = Inches(0.24)
     y_top = Inches(1.55)
     h_card = Inches(5.45)
 
-    # ── Card 1: What is the Application? ──
+    # Card 1: What is the Application?
     x1 = Inches(0.8)
     add_card(slide, x1, y_top, col_w, h_card, fill_color=BG_CARD, border_color=BORDER_COLOR)
     tb1 = slide.shapes.add_textbox(x1 + Inches(0.25), y_top + Inches(0.25), col_w - Inches(0.5), h_card - Inches(0.5))
@@ -134,14 +132,14 @@ def build_slide_1(prs):
     tf1.margin_left = tf1.margin_top = tf1.margin_right = tf1.margin_bottom = 0
 
     p = tf1.paragraphs[0]
-    p.text = "1. The Financial Application"
+    p.text = "1. What is the Application?"
     p.font.size = Pt(14)
     p.font.bold = True
     p.font.color.rgb = TEXT_CYAN
 
     bullets1 = [
-        ("Core Task: ", "Predicting next-period equity price movement direction (UP vs. DOWN at t+1) while generating grounded, human-readable rationales."),
-        ("Target End-Users: ", "Algorithmic hedge funds, equity research analysts, and retail investors requiring auditable trading intelligence."),
+        ("Core Task: ", "Predicting next-period equity price movement direction (UP vs. DOWN at t+1) while generating grounded natural-language rationales."),
+        ("Target End-Users: ", "Algorithmic hedge funds, portfolio managers, equity research analysts, and retail traders requiring auditable trading intelligence."),
         ("Primary Modalities: ", "Synthesizes multi-source financial signals: historical OHLCV technical indicators, retail social sentiment tweets, and corporate sector profiles."),
         ("Explainability Mandate: ", "Replaces uninterpretable black-box signals with evidence-grounded justification for every prediction.")
     ]
@@ -155,10 +153,10 @@ def build_slide_1(prs):
         run_t.font.color.rgb = TEXT_WHITE
         run_d = p.add_run()
         run_d.text = b_desc
-        run_d.font.size = Pt(10.5)
+        run_d.font.size = Pt(10)
         run_d.font.color.rgb = TEXT_MUTED
 
-    # ── Card 2: What Problem are We Solving & Why? ──
+    # Card 2: What Problem are We Solving & Why?
     x2 = x1 + col_w + gap
     add_card(slide, x2, y_top, col_w, h_card, fill_color=BG_CARD, border_color=BORDER_EMERALD, border_width=Pt(1.5))
     tb2 = slide.shapes.add_textbox(x2 + Inches(0.25), y_top + Inches(0.25), col_w - Inches(0.5), h_card - Inches(0.5))
@@ -167,7 +165,7 @@ def build_slide_1(prs):
     tf2.margin_left = tf2.margin_top = tf2.margin_right = tf2.margin_bottom = 0
 
     p = tf2.paragraphs[0]
-    p.text = "2. The Critical Problem We Solve"
+    p.text = "2. What Problem are We Solving & Why?"
     p.font.size = Pt(14)
     p.font.bold = True
     p.font.color.rgb = TEXT_EMERALD
@@ -188,10 +186,10 @@ def build_slide_1(prs):
         run_t.font.color.rgb = TEXT_WHITE
         run_d = p.add_run()
         run_d.text = b_desc
-        run_d.font.size = Pt(10.5)
+        run_d.font.size = Pt(10)
         run_d.font.color.rgb = TEXT_MUTED
 
-    # ── Card 3: Real-World Example & Research Paper ──
+    # Card 3: Real-World Example & Research Paper
     x3 = x2 + col_w + gap
     add_card(slide, x3, y_top, col_w, h_card, fill_color=BG_CARD, border_color=BORDER_COLOR)
     tb3 = slide.shapes.add_textbox(x3 + Inches(0.25), y_top + Inches(0.25), col_w - Inches(0.5), h_card - Inches(0.5))
@@ -200,7 +198,7 @@ def build_slide_1(prs):
     tf3.margin_left = tf3.margin_top = tf3.margin_right = tf3.margin_bottom = 0
 
     p = tf3.paragraphs[0]
-    p.text = "3. Real-World Motivating Example"
+    p.text = "3. Simple Real-World Example"
     p.font.size = Pt(14)
     p.font.bold = True
     p.font.color.rgb = TEXT_AMBER
@@ -208,46 +206,46 @@ def build_slide_1(prs):
     p = tf3.add_paragraph()
     p.space_before = Pt(8)
     p.text = "• Scenario ($AAPL): Apple drops -3.51% over 5 days (oversold bearish momentum). Simultaneously, 10 Twitter rumors cheer a speculative product rumor (+80% bullish polarity)."
-    p.font.size = Pt(10)
+    p.font.size = Pt(9.5)
     p.font.color.rgb = TEXT_MUTED
 
     p = tf3.add_paragraph()
     p.space_before = Pt(6)
-    p.text = "• The Dilemma: Static models blindly average these conflicting signals (1/3 each) and output a random guess."
-    p.font.size = Pt(10)
+    p.text = "• The Dilemma: Static models blindly average these conflicting signals (1/3 each) and output a random coin toss."
+    p.font.size = Pt(9.5)
     p.font.color.rgb = TEXT_MUTED
 
     p = tf3.add_paragraph()
     p.space_before = Pt(6)
     p.text = "• Ploutos+ Resolution: The model dynamically weighs technical selling resistance above ungrounded social noise, predicting DOWN with 70% confidence, setting strict stop-loss guardrails."
-    p.font.size = Pt(10)
+    p.font.size = Pt(9.5)
     p.font.color.rgb = TEXT_MUTED
 
     # Bottom Callout: Research Paper Attribution
     p = tf3.add_paragraph()
-    p.space_before = Pt(14)
+    p.space_before = Pt(12)
     p.text = "RESEARCH PAPER REFERENCE:"
-    p.font.size = Pt(10)
+    p.font.size = Pt(9.5)
     p.font.bold = True
     p.font.color.rgb = TEXT_PURPLE
 
     p = tf3.add_paragraph()
     p.space_before = Pt(3)
     p.text = '"Ploutos: Towards Interpretable Stock Movement Prediction with Financial Large Language Model"'
-    p.font.size = Pt(10.5)
+    p.font.size = Pt(10)
     p.font.bold = True
     p.font.color.rgb = TEXT_WHITE
 
     p = tf3.add_paragraph()
     p.space_before = Pt(2)
     p.text = "Tong et al. (ACL / arXiv:2407.13524, 2024)"
-    p.font.size = Pt(9.5)
+    p.font.size = Pt(9)
     p.font.color.rgb = TEXT_DIM
 
     p = tf3.add_paragraph()
     p.space_before = Pt(4)
-    p.text = "Team: Rishikesh (24BDS030) | Vineel (24BDS010) | Arjun (24BDS039)"
-    p.font.size = Pt(9.5)
+    p.text = "Authors: Rishikesh (24BDS030) | Vineel (24BDS010) | Arjun (24BDS039)"
+    p.font.size = Pt(9)
     p.font.color.rgb = TEXT_CYAN
 
 
@@ -261,38 +259,38 @@ def build_slide_2(prs):
         slide,
         slide_num="2",
         title="Dataset and Original Method",
-        subtitle="StockNet Benchmark Characteristics & Foundational Architecture (Xu & Cohen, ACL 2018; Tong et al., 2024)"
+        subtitle="StockNet Benchmark Characteristics & Compulsory Block Diagram of Original Method (Xu & Cohen 2018; Tong et al. 2024)"
     )
 
-    # Two Column Layout: Left (Dataset), Right (Original Method Block Diagram & Steps)
-    col_w = Inches(5.75)
+    col_w_left = Inches(5.5)
+    col_w_right = Inches(6.1)
     gap = Inches(0.24)
     y_top = Inches(1.55)
     h_card = Inches(5.45)
 
     # ── Left: Dataset Specifications ──
     x_left = Inches(0.8)
-    add_card(slide, x_left, y_top, col_w, h_card, fill_color=BG_CARD, border_color=BORDER_COLOR)
-    tb_ds = slide.shapes.add_textbox(x_left + Inches(0.25), y_top + Inches(0.25), col_w - Inches(0.5), h_card - Inches(0.5))
+    add_card(slide, x_left, y_top, col_w_left, h_card, fill_color=BG_CARD, border_color=BORDER_COLOR)
+    tb_ds = slide.shapes.add_textbox(x_left + Inches(0.25), y_top + Inches(0.25), col_w_left - Inches(0.5), h_card - Inches(0.5))
     tf_ds = tb_ds.text_frame
     tf_ds.word_wrap = True
     tf_ds.margin_left = tf_ds.margin_top = tf_ds.margin_right = tf_ds.margin_bottom = 0
 
     p = tf_ds.paragraphs[0]
     p.text = "StockNet Benchmark Dataset Overview"
-    p.font.size = Pt(14)
+    p.font.size = Pt(13.5)
     p.font.bold = True
     p.font.color.rgb = TEXT_CYAN
 
     ds_bullets = [
-        ("Source & Scope: ", "Created by Xu & Cohen (ACL 2018). Contains 87 S&P 500 US equities across two full calendar years (2014-01-01 to 2015-12-31)."),
-        ("Dual Modalities: ", "1) Daily OHLCV Price Time Series; 2) Public Twitter social streams filtered by ticker cashtags ($AAPL, $TSLA), capped at 10 tweets/day."),
-        ("Verified Size: ", "43,442 raw stock-days audited; exactly 26,623 labeled training/eval samples after filtering; 12,018 stock-days aligned with social tweets (45.14% coverage)."),
+        ("Dataset Name & Source: ", "Official StockNet Benchmark created by Xu & Cohen (ACL 2018), hosted at github.com/yumoxu/stocknet-dataset."),
+        ("Universe & Time Range: ", "87 S&P 500 US equities spanning two full calendar years (2014-01-01 to 2015-12-31)."),
+        ("Data Modalities & Volume: ", "43,442 raw stock-days audited; 26,623 labeled samples; 12,018 stock-days aligned with public Twitter streams (capped at 10 tweets/day)."),
         ("Strict Temporal Splits (Zero Lookahead Leakage):", ""),
         ("  • Training Split: ", "2014-01-02 to 2015-07-31  (20,348 samples, 76.4%)"),
         ("  • Validation Split: ", "2015-08-03 to 2015-09-30  (2,555 samples, 9.6%)"),
-        ("  • Test Split: ", "2015-10-01 to 2015-12-31  (3,720 held-out samples, 14.0%)"),
-        ("Binary Movement Target Formulation: ", "Thresholded at ±0.5% return buffer to eliminate market micro-noise: DOWN (r <= -0.5%) = 0, UP (r > +0.55%) = 1.")
+        ("  • Test Split (Held-Out): ", "2015-10-01 to 2015-12-31  (3,720 samples, 14.0%)"),
+        ("Binary Movement Target Formulation: ", "Thresholded at +/-0.5% return buffer to eliminate micro-noise: DOWN (r <= -0.5%) = 0, UP (r > +0.55%) = 1.")
     ]
     for b_title, b_desc in ds_bullets:
         p = tf_ds.add_paragraph()
@@ -300,83 +298,61 @@ def build_slide_2(prs):
         run_t = p.add_run()
         run_t.text = b_title
         run_t.font.bold = True
-        run_t.font.size = Pt(10)
-        run_t.font.color.rgb = TEXT_EMERALD if "Split:" in b_title else TEXT_WHITE
+        run_t.font.size = Pt(9.5)
+        run_t.font.color.rgb = TEXT_EMERALD if "Split" in b_title else TEXT_WHITE
         if b_desc:
             run_d = p.add_run()
             run_d.text = b_desc
-            run_d.font.size = Pt(9.5)
+            run_d.font.size = Pt(9)
             run_d.font.color.rgb = TEXT_MUTED
 
-    # ── Right: Original Method Block Diagram & Steps ──
-    x_right = x_left + col_w + gap
-    add_card(slide, x_right, y_top, col_w, h_card, fill_color=BG_CARD, border_color=BORDER_COLOR)
-    tb_m = slide.shapes.add_textbox(x_right + Inches(0.25), y_top + Inches(0.25), col_w - Inches(0.5), Inches(1.5))
+    # ── Right: Compulsory Block Diagram (Original Method) ──
+    x_right = x_left + col_w_left + gap
+    add_card(slide, x_right, y_top, col_w_right, h_card, fill_color=BG_CARD, border_color=BORDER_EMERALD, border_width=Pt(1.5))
+    
+    tb_m = slide.shapes.add_textbox(x_right + Inches(0.25), y_top + Inches(0.2), col_w_right - Inches(0.5), Inches(0.35))
     tf_m = tb_m.text_frame
     tf_m.word_wrap = True
     tf_m.margin_left = tf_m.margin_top = tf_m.margin_right = tf_m.margin_bottom = 0
-
     p = tf_m.paragraphs[0]
-    p.text = "Original Ploutos Architecture (Block Diagram)"
-    p.font.size = Pt(14)
+    p.text = "Compulsory Block Diagram 1: Original Ploutos Method"
+    p.font.size = Pt(12)
     p.font.bold = True
     p.font.color.rgb = TEXT_AMBER
 
-    # Block Diagram Visual Boxes
-    bx_y = y_top + Inches(0.75)
-    box_w = Inches(5.25)
+    # Embed High-Resolution Block Diagram 1 PNG
+    if FIG_ORIGINAL_DIAG.exists():
+        slide.shapes.add_picture(str(FIG_ORIGINAL_DIAG), x_right + Inches(0.2), y_top + Inches(0.6), width=Inches(5.7), height=Inches(3.2))
 
-    # Step 1: Input Box
-    add_card(slide, x_right + Inches(0.25), bx_y, box_w, Inches(0.7), fill_color=BG_CARD_LIGHT, border_color=TEXT_CYAN)
-    add_card_text(slide, x_right + Inches(0.35), bx_y + Inches(0.1), box_w - Inches(0.2), Inches(0.5),
-                  "1. MULTIMODAL INPUT DATA (t-4 to t)",
-                  "Historical OHLCV (5 days)  |  Social Tweets (capped 10/day)  |  Sector Profile",
-                  title_color=TEXT_CYAN)
-
-    # Step 2: Feature Extraction
-    bx_y += Inches(0.85)
-    add_card(slide, x_right + Inches(0.25), bx_y, box_w, Inches(0.85), fill_color=BG_CARD_LIGHT, border_color=BORDER_COLOR)
-    add_card_text(slide, x_right + Inches(0.35), bx_y + Inches(0.08), box_w - Inches(0.2), Inches(0.7),
-                  "2. THREE INDEPENDENT EXPERT AGENTS",
-                  "• Technical Expert: 5d Return Momentum, 14d Wilder RSI, Rolling Volatility\n• Sentiment Expert: VADER / Twitter sentiment polarity cue counting\n• Human Proxy: Corporate profile & sector macroeconomic sensitivity",
-                  title_color=TEXT_WHITE)
-
-    # Step 3: Static Synthesizer
-    bx_y += Inches(0.98)
-    add_card(slide, x_right + Inches(0.25), bx_y, box_w, Inches(0.75), fill_color=BG_CARD_LIGHT, border_color=TEXT_ROSE)
-    add_card_text(slide, x_right + Inches(0.35), bx_y + Inches(0.08), box_w - Inches(0.2), Inches(0.6),
-                  "3. STATIC EQUAL-WEIGHT PROMPT BUILDER (Flaw)",
-                  "Concatenates all 3 experts into fixed prompt template with equal 33.3% weight.\n*Limitation: Cannot dynamically rebalance when news is missing or volatility surges.",
-                  title_color=TEXT_ROSE)
-
-    # Step 4: LLM Output
-    bx_y += Inches(0.88)
-    add_card(slide, x_right + Inches(0.25), bx_y, box_w, Inches(0.75), fill_color=BG_CARD_LIGHT, border_color=BORDER_EMERALD)
-    add_card_text(slide, x_right + Inches(0.35), bx_y + Inches(0.08), box_w - Inches(0.2), Inches(0.6),
-                  "4. INSTRUCTION-TUNED LLM & OUTPUT (t+1)",
-                  "Fine-tuned LLM parses static prompt -> Outputs: Prediction: UP / DOWN\nFollowed by: 'Rearview-Mirror' Grounded Natural-Language Rationale.",
-                  title_color=TEXT_EMERALD)
-
-
-def add_card_text(slide, left, top, width, height, title, desc, title_color=TEXT_WHITE):
-    """Helper to render title and description inside a diagram box."""
-    tb = slide.shapes.add_textbox(left, top, width, height)
-    tf = tb.text_frame
-    tf.word_wrap = True
-    tf.margin_left = tf.margin_top = tf.margin_right = tf.margin_bottom = 0
-    p = tf.paragraphs[0]
-    p.text = title
-    p.font.size = Pt(10.5)
+    # Explanation of Components below the diagram
+    tb_exp = slide.shapes.add_textbox(x_right + Inches(0.25), y_top + Inches(3.9), col_w_right - Inches(0.5), Inches(1.4))
+    tf_exp = tb_exp.text_frame
+    tf_exp.word_wrap = True
+    tf_exp.margin_left = tf_exp.margin_top = tf_exp.margin_right = tf_exp.margin_bottom = 0
+    
+    p = tf_exp.paragraphs[0]
+    p.text = "Component & Processing Breakdown:"
+    p.font.size = Pt(10)
     p.font.bold = True
-    p.font.color.rgb = title_color
-    p.font.name = "Arial"
+    p.font.color.rgb = TEXT_WHITE
 
-    for line in desc.split("\n"):
-        p2 = tf.add_paragraph()
-        p2.text = line
-        p2.font.size = Pt(8.5)
-        p2.font.color.rgb = TEXT_MUTED
-        p2.font.name = "Arial"
+    p1 = tf_exp.add_paragraph()
+    p1.space_before = Pt(3)
+    p1.text = "• Input: 5-day trailing OHLCV prices, capped tweets, corporate sector description."
+    p1.font.size = Pt(8.5)
+    p1.font.color.rgb = TEXT_MUTED
+
+    p2 = tf_exp.add_paragraph()
+    p2.space_before = Pt(2)
+    p2.text = "• Major Processing: Technical Expert (RSI, vol), Sentiment Expert (polarity counting), and fixed 33.3% static concatenation into prompt template."
+    p2.font.size = Pt(8.5)
+    p2.font.color.rgb = TEXT_MUTED
+
+    p3 = tf_exp.add_paragraph()
+    p3.space_before = Pt(2)
+    p3.text = "• Output: Next-period direction (UP/DOWN) + post-hoc qualitative rationale."
+    p3.font.size = Pt(8.5)
+    p3.font.color.rgb = TEXT_MUTED
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -423,7 +399,7 @@ def build_slide_3(prs):
         ["Model Architecture", "Accuracy", "Macro F1", "MCC"],
         ["Majority Class Baseline", "51.29%", "33.90%", "0.0000"],
         ["StockNet (Xu & Cohen, 2018)", "52.10%", "50.40%", "+0.0420"],
-        ["Random Forest (Numerical)", "52.53%", "51.73%", "+0.0469"],
+        ["Random Forest (Numerical Baseline)", "52.53%", "51.73%", "+0.0469"],
         ["Original Ploutos (Static LLM)", "52.80%", "51.50%", "+0.0480"]
     ]
     for r_idx, row in enumerate(table_data):
@@ -619,9 +595,8 @@ def build_slide_4(prs):
                 cell.fill.fore_color.rgb = BG_CARD_LIGHT
 
     # Embedded Loss Curve Image
-    loss_path = PROJECT_ROOT / "results" / "figures" / "training_loss.png"
-    if loss_path.exists():
-        slide.shapes.add_picture(str(loss_path), x_r + Inches(0.35), y_top + Inches(2.35), width=Inches(3.3), height=Inches(1.85))
+    if FIG_LOSS.exists():
+        slide.shapes.add_picture(str(FIG_LOSS), x_r + Inches(0.35), y_top + Inches(2.35), width=Inches(3.3), height=Inches(1.85))
 
     # Important Differences Explanation Box
     tb_diff = slide.shapes.add_textbox(x_r + Inches(3.75), y_top + Inches(2.35), Inches(1.9), Inches(1.85))
@@ -668,107 +643,100 @@ def build_slide_5(prs):
         slide,
         slide_num="5",
         title="Stage 2 – Proposed Modifications (Ploutos+)",
-        subtitle="Introducing Adaptive Expert Routing, Candlestick Vision & Dynamic Risk Guardrails"
+        subtitle="Introducing Adaptive Expert Routing, Candlestick Vision & Compulsory Block Diagram 2"
     )
 
+    col_w_left = Inches(5.5)
+    col_w_right = Inches(6.1)
+    gap = Inches(0.24)
     y_top = Inches(1.55)
     h_card = Inches(5.45)
 
-    # Left: Four Proposed Scientific Modifications (Width: 5.6 Inches)
-    w_left = Inches(5.6)
-    add_card(slide, Inches(0.8), y_top, w_left, h_card, fill_color=BG_CARD, border_color=BORDER_EMERALD, border_width=Pt(1.5))
+    # Left: Four Proposed Scientific Modifications
+    x_left = Inches(0.8)
+    add_card(slide, x_left, y_top, col_w_left, h_card, fill_color=BG_CARD, border_color=BORDER_EMERALD, border_width=Pt(1.5))
 
-    tb_mod = slide.shapes.add_textbox(Inches(1.05), y_top + Inches(0.25), w_left - Inches(0.5), h_card - Inches(0.5))
+    tb_mod = slide.shapes.add_textbox(x_left + Inches(0.25), y_top + Inches(0.25), col_w_left - Inches(0.5), h_card - Inches(0.5))
     tf_mod = tb_mod.text_frame
     tf_mod.word_wrap = True
     tf_mod.margin_left = tf_mod.margin_top = tf_mod.margin_right = tf_mod.margin_bottom = 0
 
     p = tf_mod.paragraphs[0]
-    p.text = "Four Core Proposed Modifications"
-    p.font.size = Pt(14)
+    p.text = "Four Proposed Modifications (Why Introduced)"
+    p.font.size = Pt(13.5)
     p.font.bold = True
     p.font.color.rgb = TEXT_EMERALD
 
     mods = [
-        ("1. Adaptive Context-Gated Neural Router: ",
-         "Replaces static 1/3 heuristics with an MLP gating network. Evaluates 16-D market features (volatility, RSI divergence, news density) to dynamically compute expert weights: [α_Tech, α_Sent, α_Fund]."),
-        ("2. Visual Financial Expert (Candlestick Geometry): ",
-         "Introduced computer vision price-action recognition over 15-day OHLC candlestick charts (detects hammers, shooting stars, engulfing bars, MA crosses) with strictly lagged zero-leakage."),
+        ("1. Adaptive Neural Expert Router: ",
+         "Why: Static 1/3 heuristics break down during market shocks.\nHow: 16-D MLP gating evaluates volatility, RSI, and tweet density to compute dynamic weights: [α_Tech, α_Sent, α_Fund]."),
+        ("2. Visual Candlestick Geometry Expert: ",
+         "Why: Price action forms spatial reversal patterns that pure numeric tables miss.\nHow: Detects hammers, shooting stars, engulfing bars across 15-day OHLC charts strictly lagged (t < t+1)."),
         ("3. Actionable Risk Guardrail Engine: ",
-         "Added institutional capital allocation sizing (STRONG BUY, SCALE IN, HOLD CASH, DO NOT INVEST) and quantitative dynamic Stop-Loss / Take-Profit price levels based on 5-day rolling volatility."),
-        ("4. Real-Time Production Trading Terminal: ",
-         "Engineered an institutional web terminal (server.py) with TradingView Lightweight Charts, multi-currency detection ($ US, ₹ NSE/BSE), and an automated forward tracking ledger.")
+         "Why: Portfolio managers cannot trade raw binary labels without risk levels.\nHow: Dynamic Stop-Loss (1.5*sigma) & Take-Profit (2.5*sigma) targeting 1:1.67 Risk-Reward ratio."),
+        ("4. Institutional TradingView Terminal: ",
+         "Why: Validates real-time operational usability in production.\nHow: FastAPI server (server.py) with TradingView charts, multi-currency (USD / INR), and SQLite forward audit ledger.")
     ]
     for m_title, m_desc in mods:
         p = tf_mod.add_paragraph()
-        p.space_before = Pt(8)
+        p.space_before = Pt(6)
         run_t = p.add_run()
         run_t.text = m_title
         run_t.font.bold = True
-        run_t.font.size = Pt(10.5)
+        run_t.font.size = Pt(10)
         run_t.font.color.rgb = TEXT_CYAN
         run_d = p.add_run()
         run_d.text = m_desc
-        run_d.font.size = Pt(9.5)
+        run_d.font.size = Pt(8.8)
         run_d.font.color.rgb = TEXT_MUTED
 
-    # Right: Stage 2 Modified Block Diagram (Width: 5.9 Inches)
-    w_right = Inches(5.9)
-    x_r = Inches(6.64)
-    add_card(slide, x_r, y_top, w_right, h_card, fill_color=BG_CARD, border_color=BORDER_COLOR)
+    # Right: Compulsory Block Diagram 2 (Modified Method)
+    x_right = x_left + col_w_left + gap
+    add_card(slide, x_right, y_top, col_w_right, h_card, fill_color=BG_CARD, border_color=BORDER_COLOR)
 
-    tb_diag = slide.shapes.add_textbox(x_r + Inches(0.25), y_top + Inches(0.25), w_right - Inches(0.5), Inches(0.4))
+    tb_diag = slide.shapes.add_textbox(x_right + Inches(0.25), y_top + Inches(0.2), col_w_right - Inches(0.5), Inches(0.35))
     tf_diag = tb_diag.text_frame
     tf_diag.word_wrap = True
     tf_diag.margin_left = tf_diag.margin_top = tf_diag.margin_right = tf_diag.margin_bottom = 0
     p = tf_diag.paragraphs[0]
-    p.text = "Stage 2 Proposed Block Diagram (Ploutos+ Architecture)"
-    p.font.size = Pt(13)
+    p.text = "Compulsory Block Diagram 2: Proposed Method (Ploutos+)"
+    p.font.size = Pt(12)
     p.font.bold = True
     p.font.color.rgb = TEXT_AMBER
 
-    # Diagram Elements with Green Accent Highlighting New Modifications
-    bx_y = y_top + Inches(0.7)
-    box_w = Inches(5.4)
+    # Embed High-Resolution Block Diagram 2 PNG
+    if FIG_MODIFIED_DIAG.exists():
+        slide.shapes.add_picture(str(FIG_MODIFIED_DIAG), x_right + Inches(0.2), y_top + Inches(0.6), width=Inches(5.7), height=Inches(3.2))
 
-    # Step 1: Input Modalities (Includes New Candlestick Vision)
-    add_card(slide, x_r + Inches(0.25), bx_y, box_w, Inches(0.8), fill_color=BG_CARD_LIGHT, border_color=TEXT_CYAN)
-    add_card_text(slide, x_r + Inches(0.35), bx_y + Inches(0.08), box_w - Inches(0.2), Inches(0.65),
-                  "1. MULTIMODAL MARKET DATA (LAGGED t-4 TO t)",
-                  "OHLCV Series  |  Social Cashtag Tweets  |  15-Day Candlestick Images [NEW!]",
-                  title_color=TEXT_CYAN)
+    # Highlight of Modifications below diagram
+    tb_mod_exp = slide.shapes.add_textbox(x_right + Inches(0.25), y_top + Inches(3.9), col_w_right - Inches(0.5), Inches(1.4))
+    tf_mod_exp = tb_mod_exp.text_frame
+    tf_mod_exp.word_wrap = True
+    tf_mod_exp.margin_left = tf_mod_exp.margin_top = tf_mod_exp.margin_right = tf_mod_exp.margin_bottom = 0
 
-    # Step 2: 16-D Feature Vector
-    bx_y += Inches(0.9)
-    add_card(slide, x_r + Inches(0.25), bx_y, box_w, Inches(0.8), fill_color=BG_CARD_LIGHT, border_color=BORDER_COLOR)
-    add_card_text(slide, x_r + Inches(0.35), bx_y + Inches(0.08), box_w - Inches(0.2), Inches(0.65),
-                  "2. 16-DIMENSIONAL CONTEXT EXTRACTION",
-                  "Calculates Momentum, Wilder RSI, Rolling Volatility, Volume Surge, and Tweet Density.",
-                  title_color=TEXT_WHITE)
+    p = tf_mod_exp.paragraphs[0]
+    p.text = "Summary of Flow Improvements:"
+    p.font.size = Pt(10)
+    p.font.bold = True
+    p.font.color.rgb = TEXT_WHITE
 
-    # Step 3: Adaptive Neural Router [NEW]
-    bx_y += Inches(0.9)
-    add_card(slide, x_r + Inches(0.25), bx_y, box_w, Inches(0.9), fill_color=BG_CARD_LIGHT, border_color=BORDER_EMERALD, border_width=Pt(2))
-    add_card_text(slide, x_r + Inches(0.35), bx_y + Inches(0.08), box_w - Inches(0.2), Inches(0.75),
-                  "3. ADAPTIVE CONTEXT-GATED NEURAL ROUTER [NEW INNOVATION]",
-                  "Neural MLP Softmax computes dynamic weights: α_Tech (42%), α_Sent (28%), α_Fund (30%)\n*Dynamically downweights noise and upweights signal in turbulent markets.",
-                  title_color=TEXT_EMERALD)
+    p1 = tf_mod_exp.add_paragraph()
+    p1.space_before = Pt(3)
+    p1.text = "• Dynamic MoE Routing: Automatically downweights noise and upweights signal in volatile markets."
+    p1.font.size = Pt(8.5)
+    p1.font.color.rgb = TEXT_MUTED
 
-    # Step 4: Multi-Expert LLM Synthesizer with Visual Expert [NEW]
-    bx_y += Inches(1.0)
-    add_card(slide, x_r + Inches(0.25), bx_y, box_w, Inches(0.85), fill_color=BG_CARD_LIGHT, border_color=BORDER_EMERALD, border_width=Pt(2))
-    add_card_text(slide, x_r + Inches(0.35), bx_y + Inches(0.08), box_w - Inches(0.2), Inches(0.7),
-                  "4. SYNTHESIZED PROMPT + VISUAL EXPERT + FINE-TUNED LLM [NEW]",
-                  "Technical Evidence + Sentiment Breakdown + Candlestick Reversal Patterns -> LLM Reasoner",
-                  title_color=TEXT_EMERALD)
+    p2 = tf_mod_exp.add_paragraph()
+    p2.space_before = Pt(2)
+    p2.text = "• Spatial Candlestick Vision: Captures candlestick reversal cues without lookahead leakage."
+    p2.font.size = Pt(8.5)
+    p2.font.color.rgb = TEXT_MUTED
 
-    # Step 5: Actionable Output & Risk Guardrails [NEW]
-    bx_y += Inches(0.95)
-    add_card(slide, x_r + Inches(0.25), bx_y, box_w, Inches(0.8), fill_color=BG_CARD_LIGHT, border_color=BORDER_CYAN)
-    add_card_text(slide, x_r + Inches(0.35), bx_y + Inches(0.08), box_w - Inches(0.2), Inches(0.65),
-                  "5. ACTIONABLE VERDICT & DYNAMIC RISK GUARDRAILS [NEW]",
-                  "Prediction (UP/DOWN)  |  Capital Verdict (STRONG BUY)  |  Stop-Loss & Take-Profit Levels",
-                  title_color=TEXT_CYAN)
+    p3 = tf_mod_exp.add_paragraph()
+    p3.space_before = Pt(2)
+    p3.text = "• Actionable Risk Output: Generates capital sizing and dynamic stop-loss/take-profit prices."
+    p3.font.size = Pt(8.5)
+    p3.font.color.rgb = TEXT_MUTED
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -884,9 +852,8 @@ def build_slide_6(prs):
     p.font.color.rgb = TEXT_EMERALD
 
     # Embedded MCC Bar Chart
-    mcc_fig_path = PROJECT_ROOT / "results" / "figures" / "ablation_mcc_comparison.png"
-    if mcc_fig_path.exists():
-        slide.shapes.add_picture(str(mcc_fig_path), x_r + Inches(0.3), y_top + Inches(0.7), width=Inches(4.1), height=Inches(2.5))
+    if FIG_ABLATION_MCC.exists():
+        slide.shapes.add_picture(str(FIG_ABLATION_MCC), x_r + Inches(0.3), y_top + Inches(0.7), width=Inches(4.1), height=Inches(2.5))
 
     # Analytical takeaways
     tb_take = slide.shapes.add_textbox(x_r + Inches(0.25), y_top + Inches(3.3), w_right - Inches(0.5), Inches(1.95))
@@ -1036,9 +1003,8 @@ def build_slide_6b(prs):
     p.font.color.rgb = TEXT_CYAN
 
     # Embedded Terminal / Chart Image
-    reg_fig_path = PROJECT_ROOT / "results" / "figures" / "regime_accuracy_comparison.png"
-    if reg_fig_path.exists():
-        slide.shapes.add_picture(str(reg_fig_path), x_r + Inches(0.3), y_top + Inches(0.7), width=Inches(4.1), height=Inches(2.4))
+    if FIG_REGIME_ACC.exists():
+        slide.shapes.add_picture(str(FIG_REGIME_ACC), x_r + Inches(0.3), y_top + Inches(0.7), width=Inches(4.1), height=Inches(2.4))
 
     # Production capabilities
     tb_cap = slide.shapes.add_textbox(x_r + Inches(0.25), y_top + Inches(3.2), w_right - Inches(0.5), Inches(2.05))
@@ -1090,13 +1056,7 @@ def build_slide_7(prs):
     gap_x = Inches(0.24)
     gap_y = Inches(0.24)
 
-    # 4 Quadrants answering the 4 questions from guidelines:
-    # Top-Left: Q1 - What did you learn from implementing the paper?
-    # Top-Right: Q2 - What modifications did you make?
-    # Bottom-Left: Q3 - What were the outcomes?
-    # Bottom-Right: Q4 - What can other students learn from your project?
-
-    # ── Quadrant 1: Learnings from Implementing ──
+    # Quadrant 1: Learnings from Implementing
     x1, y1 = Inches(0.8), y_top
     add_card(slide, x1, y1, card_w, card_h, fill_color=BG_CARD, border_color=TEXT_CYAN)
     tb1 = slide.shapes.add_textbox(x1 + Inches(0.25), y1 + Inches(0.2), card_w - Inches(0.5), card_h - Inches(0.4))
@@ -1122,7 +1082,7 @@ def build_slide_7(prs):
         p.font.size = Pt(9.5)
         p.font.color.rgb = TEXT_MUTED
 
-    # ── Quadrant 2: What Modifications Were Made ──
+    # Quadrant 2: What Modifications Were Made
     x2, y2 = x1 + card_w + gap_x, y_top
     add_card(slide, x2, y2, card_w, card_h, fill_color=BG_CARD, border_color=BORDER_EMERALD)
     tb2 = slide.shapes.add_textbox(x2 + Inches(0.25), y2 + Inches(0.2), card_w - Inches(0.5), card_h - Inches(0.4))
@@ -1149,7 +1109,7 @@ def build_slide_7(prs):
         p.font.size = Pt(9.5)
         p.font.color.rgb = TEXT_MUTED
 
-    # ── Quadrant 3: What Were the Outcomes ──
+    # Quadrant 3: What Were the Outcomes
     x3, y3 = x1, y_top + card_h + gap_y
     add_card(slide, x3, y3, card_w, card_h, fill_color=BG_CARD, border_color=TEXT_AMBER)
     tb3 = slide.shapes.add_textbox(x3 + Inches(0.25), y3 + Inches(0.2), card_w - Inches(0.5), card_h - Inches(0.4))
@@ -1176,7 +1136,7 @@ def build_slide_7(prs):
         p.font.size = Pt(9.5)
         p.font.color.rgb = TEXT_MUTED
 
-    # ── Quadrant 4: What Can Other Students Learn ──
+    # Quadrant 4: What Can Other Students Learn
     x4, y4 = x2, y3
     add_card(slide, x4, y4, card_w, card_h, fill_color=BG_CARD, border_color=TEXT_PURPLE)
     tb4 = slide.shapes.add_textbox(x4 + Inches(0.25), y4 + Inches(0.2), card_w - Inches(0.5), card_h - Inches(0.4))
@@ -1212,7 +1172,7 @@ def main():
     print("[PPTX] Building Slide 1: Application and Problem Statement...")
     build_slide_1(prs)
 
-    print("[PPTX] Building Slide 2: Dataset and Original Method...")
+    print("[PPTX] Building Slide 2: Dataset and Original Method (with Compulsory Block Diagram 1)...")
     build_slide_2(prs)
 
     print("[PPTX] Building Slide 3: Results from the Original Paper...")
@@ -1221,7 +1181,7 @@ def main():
     print("[PPTX] Building Slide 4: Stage 1 – Implementation and Results...")
     build_slide_4(prs)
 
-    print("[PPTX] Building Slide 5: Stage 2 – Proposed Modifications (Ploutos+)...")
+    print("[PPTX] Building Slide 5: Stage 2 – Proposed Modifications (with Compulsory Block Diagram 2)...")
     build_slide_5(prs)
 
     print("[PPTX] Building Slide 6: Stage 2 – Final Results & Comprehensive Ablation...")
