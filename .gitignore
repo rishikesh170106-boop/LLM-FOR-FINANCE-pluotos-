@@ -40,3 +40,9 @@ logs/
 *.log
 results/predictions/*
 !results/predictions/.gitkeep
+
+# Database & runtime tracker outputs
+*.db
+results/live_tracker.db
+results/metrics/live_audit_summary.json
+results/figures/charts/*

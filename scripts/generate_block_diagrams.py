@@ -223,3 +223,4 @@ def draw_modified_diagram():
 if __name__ == "__main__":
     draw_original_diagram()
     draw_modified_diagram()
+
